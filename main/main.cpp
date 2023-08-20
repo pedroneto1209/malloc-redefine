@@ -1,20 +1,22 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include <iostream>
-
 #include "malloc.hpp"
+#include <stdio.h>
 
-void HelloCMake::run(int i) {
-    std::cout << "Hello World from C++ " << i << '\n';
-    vTaskDelay(pdMS_TO_TICKS(1000));
+extern "C" {
+void app_main();
 }
 
-extern "C" void app_main(void) {
-    HelloCMake App;
-    int i = 0;
+void app_main() {
+    printf("Hello world!\n");
 
-    while (true) {
-        App.run(i);
-        i++;
+    void *ptr = malloc_redefine(10);
+
+    for (int i = 1; i >= 0; i--) {
+        printf("Restarting in %d seconds...\n", i);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
+    printf("Restarting now.\n");
+    fflush(stdout);
+    esp_restart();
 }
