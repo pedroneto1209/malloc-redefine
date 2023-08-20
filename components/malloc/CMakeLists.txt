@@ -1,3 +1,2 @@
-idf_component_register(SOURCE_DIR "."
-                    INCLUDE_DIRS "."
-                    REQUIRES cstddef)
+idf_component_register(SRCS "malloc.cpp"
+                    INCLUDE_DIRS ".")
