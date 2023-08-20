@@ -8,15 +8,9 @@ void app_main();
 }
 
 void app_main() {
-    printf("Hello world!\n");
+    printf("Starting code\n");
 
     void *ptr = malloc_redefine(10);
-
-    for (int i = 1; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-    printf("Restarting now.\n");
-    fflush(stdout);
-    esp_restart();
+    void *ptr_malloc = malloc(10);
+    void *ptr2 = malloc_redefine(10);
 }
