@@ -5,6 +5,7 @@
 static void print_banner(const char *text);
 
 void app_main(void) {
+    // This should execute all tests
     print_banner("Running all the registered tests");
     UNITY_BEGIN();
     unity_run_all_tests();

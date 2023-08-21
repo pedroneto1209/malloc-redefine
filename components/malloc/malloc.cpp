@@ -5,6 +5,8 @@
 
 Block_t *heap_head;
 
+// Creates a linked list of blocks of memory, being randomly free or not, just
+// for demonstration purpose
 Block_t *createBlockLinkedList(uint32_t numBlocks) {
     Block_t *head = nullptr;
     Block_t *current = nullptr;
@@ -34,8 +36,11 @@ Block_t *createBlockLinkedList(uint32_t numBlocks) {
 
 Block_t *get_heap() {
 
+    // This is the ESP defines to find a internal memory capable of being
+    // allocated (DRAM and D/I RAM)
     uint16_t caps = (MALLOC_CAP_DEFAULT | MALLOC_CAP_INTERNAL);
 
+    // This will run through all memory available
     for (int prio = 0; prio < SOC_MEMORY_TYPE_NO_PRIOS; prio++) {
         heap_t *heap;
 
@@ -49,9 +54,13 @@ Block_t *get_heap() {
 
                 if ((get_all_caps(heap) & caps) == caps) {
 
+                    // Prints the memmory regions
                     std::cout << (heap->start) << " to " << (heap->end)
                               << std::endl;
 
+                    // This was a demo to obtain the actual memory of the ESP,
+                    // to demonstrate the malloc implementation, a random linked
+                    // list will be used:
                     return createBlockLinkedList(100);
                 }
             }
@@ -74,6 +83,8 @@ void print_heap(Block_t *current) {
     }
 }
 
+// This will use the best fit approach to find the best memory block to alloc,
+// it will consider the shortest block that can contain the size defined
 Block_t *find_best_block(Block_t *current, size_t size) {
 
     Block_t *min_size_block = nullptr;
@@ -109,6 +120,8 @@ Block_t *find_best_block(Block_t *current, size_t size) {
     return min_size_block;
 }
 
+// After finding the best block, this will allocate it and create another block
+// if there is any space left
 void *alloc_block(Block_t *best_block, size_t size) {
     void *ptr;
 
@@ -133,6 +146,7 @@ void *alloc_block(Block_t *best_block, size_t size) {
     return ptr;
 }
 
+// This will run all the functions to check if the algorithm works
 void *malloc_redefine(size_t size) {
     std::cout << "malloc_redefine started" << std::endl;
 
@@ -153,6 +167,9 @@ void *malloc_redefine(size_t size) {
     return best_block;
 }
 
+// This function sets the block allocated to free, also, the adjacents blocks
+// are checked, if they are free this function will join into a bigger block,
+// resulting in less fragmented memmory
 void free_redefine(void *ptr) {
     std::cout << "free_redefine started" << std::endl;
     Block_t *block = (Block_t *)ptr;
