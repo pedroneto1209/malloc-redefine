@@ -8,4 +8,5 @@ struct Block_t {
     Block_t *previous;
 };
 
-void *malloc_redefine(size_t size);
+void *malloc_redefine(size_t);
+void free_redefine(void *);

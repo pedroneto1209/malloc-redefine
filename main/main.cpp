@@ -11,4 +11,5 @@ void app_main() {
     printf("Starting code\n");
 
     void *ptr = malloc_redefine(97);
+    free_redefine(ptr);
 }

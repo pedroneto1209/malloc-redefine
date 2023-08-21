@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdio.h>
 
+Block_t *heap_head;
+
 Block_t *createBlockLinkedList(uint32_t numBlocks) {
     Block_t *head = nullptr;
     Block_t *current = nullptr;
@@ -138,7 +140,7 @@ void *malloc_redefine(size_t size) {
         return NULL;
     }
 
-    Block_t *heap_head = get_heap();
+    heap_head = get_heap();
 
     print_heap(heap_head);
 
@@ -149,4 +151,27 @@ void *malloc_redefine(size_t size) {
     print_heap(heap_head);
 
     return best_block;
+}
+
+void free_redefine(void *ptr) {
+    std::cout << "free_redefine started" << std::endl;
+    Block_t *block = (Block_t *)ptr;
+
+    std::cout << block->next << std::endl;
+
+    block->free = 1;
+
+    if (block->previous->free) {
+        block->previous->previous->next = block;
+        block->previous = block->previous->previous;
+        block->size += block->previous->size;
+    }
+
+    if (block->next->free) {
+        block->next->next->previous = block;
+        block->next = block->next->next;
+        block->size += block->next->size;
+    }
+
+    print_heap(heap_head);
 }
