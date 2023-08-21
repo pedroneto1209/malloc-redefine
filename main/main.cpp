@@ -10,6 +10,5 @@ void app_main();
 void app_main() {
     printf("Starting code\n");
 
-    void *ptr = malloc_redefine(10);
-    void *ptr_malloc = malloc(10);
+    void *ptr = malloc_redefine(97);
 }

@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 struct Block_t {
+    bool free;
     uint32_t size;
     Block_t *next;
     Block_t *previous;
