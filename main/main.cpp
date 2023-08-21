@@ -12,5 +12,4 @@ void app_main() {
 
     void *ptr = malloc_redefine(10);
     void *ptr_malloc = malloc(10);
-    void *ptr2 = malloc_redefine(10);
 }
